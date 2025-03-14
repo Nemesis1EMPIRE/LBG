@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 void main() {
   runApp(BibliothequeGabonaiseApp());
@@ -135,26 +136,7 @@ class StoryPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset("assets/photo.png", height: 50),
-            Row(
-              children: [
-                IconButton(
-                  icon: Image.asset("assets/33.png"),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Image.asset("assets/44.png"),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Image.asset("assets/11.png"),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Image.asset("assets/22.png"),
-                  onPressed: () {},
-                ),
-              ],
-            )
+           Image.asset("assets/GABONAISE.png", width: 200),
           ],
         ),
       ),
@@ -216,17 +198,110 @@ class StoryPage extends StatelessWidget {
   }
 }
 
-class VideoPage extends StatelessWidget {
-  final String title;
-  VideoPage(this.title);
+
+
+
+
+
+class VideoPage extends StatefulWidget {
+  @override
+  _VideoPageState createState() => _VideoPageState();
+}
+
+class _VideoPageState extends State<VideoPage> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset('assets/video.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.play();
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Text("Lecture de la vidéo en cours..."),
+      appBar: AppBar(
+        title: Text('Play Video'),
+        backgroundColor: Colors.blue,
+      ),
+      body: Column(
+        children: [
+          _controller.value.isInitialized
+              ? AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: VideoPlayer(_controller),
+                )
+              : Center(child: CircularProgressIndicator()),
+          SizedBox(height: 10),
+          Text("Découvrez dans cette vidéo l'histoire de Libreville Partie 1",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          SizedBox(height: 20),
+          Expanded(
+            child: ListView(
+              children: [
+                VideoItem(
+                  thumbnail: 'assets/lbvpart2.png',
+                  title: "Découvrez dans cette vidéo l'histoire de Libreville Partie 2",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => VideoPage2()),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 }
+
+class VideoItem extends StatelessWidget {
+  final String thumbnail;
+  final String title;
+  final VoidCallback onTap;
+
+  VideoItem({required this.thumbnail, required this.title, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        margin: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Image.asset(thumbnail, fit: BoxFit.cover),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class VideoPage2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Libreville Partie 2')),
+      body: Center(child: Text('Vidéo 2 ici')), // Remplace par le player de la 2e vidéo
+    );
+  }
+}
+
