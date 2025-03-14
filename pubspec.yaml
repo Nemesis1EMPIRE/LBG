@@ -67,6 +67,10 @@ flutter:
      - assets/4.png
      - assets/lbvpart1.png
      - assets/lbvpart2.png
+     - assets/11.png
+     - assets/22.png
+     - assets/33.png
+     - assets/44.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
