@@ -61,7 +61,6 @@ flutter:
   assets:
      - assets/photo.png
      - assets/GABONAISE.png
-     - assets/banner.png
      - assets/1.png
      - assets/2.png
      - assets/3.png
