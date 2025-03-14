@@ -138,19 +138,19 @@ class StoryPage extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  icon: Image.asset("assets/3.png"),
+                  icon: Image.asset("assets/33.png"),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Image.asset("assets/4.png"),
+                  icon: Image.asset("assets/44.png"),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Image.asset("assets/1.png"),
+                  icon: Image.asset("assets/11.png"),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Image.asset("assets/2.png"),
+                  icon: Image.asset("assets/22.png"),
                   onPressed: () {},
                 ),
               ],
