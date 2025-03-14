@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(BibliothequeGabonaiseApp());
 }
 
-class MyApp extends StatelessWidget {
+class BibliothequeGabonaiseApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,67 +19,59 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  final List<Map<String, String>> items = [
+    {"image": "assets/1.png", "route": "histoire"},
+    {"image": "assets/2.png", "route": "environ"},
+    {"image": "assets/3.png", "route": "faune"},
+    {"image": "assets/4.png", "route": "flore"},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 3,
+        elevation: 4,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset('assets/photo.png', height: 50),
-            SizedBox(width: 10),
-            Text(
-              "Bibliothèque Gabonaise",
-              style: TextStyle(color: Colors.black, fontSize: 20),
-            ),
+            Image.asset("assets/photo.png", height: 50), // Logo à gauche
+            Image.asset("assets/GABONAISE.png", width: 200), // Image au centre
           ],
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: double.infinity,
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: AssetImage('assets/banner.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+              child: Image.asset("assets/banner.png", fit: BoxFit.cover),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: 2, // Nombre de colonnes
                   crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+                  mainAxisSpacing: 15,
+                  childAspectRatio: 1,
                 ),
-                itemCount: categories.length,
+                itemCount: items.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => VideoPage(categories[index]),
+                          builder: (context) => DetailPage(items[index]["route"]!),
                         ),
                       );
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: AssetImage(categories[index].imagePath),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(items[index]["image"]!, fit: BoxFit.cover),
                     ),
                   );
                 },
@@ -92,46 +84,17 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class VideoPage extends StatelessWidget {
-  final Category category;
-  VideoPage(this.category);
+class DetailPage extends StatelessWidget {
+  final String pageName;
+  DetailPage(this.pageName);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(category.title),
-      ),
+      appBar: AppBar(title: Text(pageName.toUpperCase())),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: double.infinity,
-              height: 300,
-              child: Image.asset(category.imagePath, fit: BoxFit.cover),
-            ),
-            SizedBox(height: 20),
-            Text(
-              "Vidéo sur ${category.title}",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+        child: Text("Page $pageName en construction..."),
       ),
     );
   }
 }
-
-class Category {
-  final String title;
-  final String imagePath;
-  Category({required this.title, required this.imagePath});
-}
-
-List<Category> categories = [
-  Category(title: "Histoire", imagePath: "assets/1.png"),
-  Category(title: "Environnement", imagePath: "assets/2.png"),
-  Category(title: "Faune", imagePath: "assets/3.png"),
-  Category(title: "Flore", imagePath: "assets/4.png"),
-];
