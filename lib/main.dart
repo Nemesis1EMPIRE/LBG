@@ -235,8 +235,15 @@ class _VideoPageState extends State<VideoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title), // Utilisation du titre passé en paramètre
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
+        elevation: 4,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset("assets/photo.png", height: 50), // Logo à gauche
+            Image.asset("assets/GABONAISE.png", width: 200), // Image au centre
+          ],
+        ),
       ),
       body: Column(
         children: [
