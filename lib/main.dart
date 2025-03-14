@@ -204,6 +204,10 @@ class StoryPage extends StatelessWidget {
 
 
 class VideoPage extends StatefulWidget {
+  final String title; // Ajout du paramètre title
+  
+  VideoPage(this.title); // Constructeur prenant un titre en paramètre
+
   @override
   _VideoPageState createState() => _VideoPageState();
 }
@@ -231,7 +235,7 @@ class _VideoPageState extends State<VideoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Play Video'),
+        title: Text(widget.title), // Utilisation du titre passé en paramètre
         backgroundColor: Colors.blue,
       ),
       body: Column(
@@ -243,7 +247,7 @@ class _VideoPageState extends State<VideoPage> {
                 )
               : Center(child: CircularProgressIndicator()),
           SizedBox(height: 10),
-          Text("Découvrez dans cette vidéo l'histoire de Libreville Partie 1",
+          Text(widget.title, // Affichage du titre
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           SizedBox(height: 20),
           Expanded(
@@ -255,7 +259,7 @@ class _VideoPageState extends State<VideoPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => VideoPage2()),
+                      MaterialPageRoute(builder: (context) => VideoPage("Libreville Partie 2")),
                     );
                   },
                 ),
@@ -267,6 +271,7 @@ class _VideoPageState extends State<VideoPage> {
     );
   }
 }
+
 
 class VideoItem extends StatelessWidget {
   final String thumbnail;
