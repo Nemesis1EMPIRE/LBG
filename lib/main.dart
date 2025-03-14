@@ -29,6 +29,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // Fond blanc
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 4,
@@ -51,30 +52,28 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 15),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Nombre de colonnes
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 15,
-                  childAspectRatio: 1,
-                ),
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailPage(items[index]["route"]!),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: items.map((item) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailPage(item["route"]!),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.asset(item["image"]!, fit: BoxFit.cover),
                         ),
-                      );
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(items[index]["image"]!, fit: BoxFit.cover),
-                    ),
-                  );
-                },
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           ],
