@@ -19,12 +19,13 @@ class BibliothequeGabonaiseApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  final List<Map<String, String>> items = [
-    {"image": "assets/1.png", "route": StoryPage()},
-    {"image": "assets/2.png", "route": "environ"},
-    {"image": "assets/3.png", "route": "faune"},
-    {"image": "assets/4.png", "route": "flore"},
-  ];
+ final List<Map<String, String>> items = [
+  {"image": "assets/1.png", "route": "story"},
+  {"image": "assets/2.png", "route": "environ"},
+  {"image": "assets/3.png", "route": "faune"},
+  {"image": "assets/4.png", "route": "flore"},
+];
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +58,21 @@ class HomePage extends StatelessWidget {
                   children: items.map((item) {
                     return GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailPage(item["route"]!),
-                          ),
-                        );
-                      },
+                          Widget page;
+                          switch (item["route"]) {
+                            case "story":
+                              page = StoryPage();
+                              break;
+                            default:
+                              page = DetailPage(item["route"]!);
+                          }
+                        
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => page),
+                          );
+                        },
+
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: ClipRRect(
@@ -100,7 +109,8 @@ class DetailPage extends StatelessWidget {
 
 class StoryPage extends StatelessWidget {
   const StoryPage({super.key});
-  final List<Map<String, String>> videos = [
+
+  final List<Map<String, String>> videos = const [
     {
       "image": "assets/lbvpart1.png",
       "title": "Découvrez dans cette vidéo l'histoire de Libreville Partie 1",
@@ -112,6 +122,7 @@ class StoryPage extends StatelessWidget {
       "route": "play_video2"
     },
   ];
+
 
   @override
   Widget build(BuildContext context) {
